@@ -11,11 +11,7 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/')
-def index():
-	return "Yo, it's working!"
-
-@app.route("/process",  methods = ['POST'])
+@app.route("/",  methods = ['POST'])
 def hello():
     data_dir = os.getcwd()+'/data/'
     params = request.json
