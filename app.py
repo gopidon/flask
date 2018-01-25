@@ -35,21 +35,18 @@ def hello():
     #files = ['JanExcels/flights/6E0251to10Jan.xlsx','JanExcels/flights/6E02511to20Jan.xlsx','JanExcels/flights/6E02521to31Jan.xlsx']
     #files = glob.glob("./JanExcels/flights/apis.xlsx")
     #files = glob.glob("./test/set1/*.xlsx")
-    try:
-        df2=pd.read_excel(apisFile,usecols=[1,2,3,4,5,6,7,8,9,10,11,12])
-        df2['Schedule Date'] = pd.to_datetime(df2['Schedule Date'])
-        df2['Schedule Date'] = df2['Schedule Date'].dt.date
-        df2['Date of Birth'] = pd.to_datetime(df2['Date of Birth'])
-        df2['Date of Birth'] = df2['Date of Birth'].dt.date
-        df2['Passport No.'] = df2['Passport No.'].astype(str)
-        df2['Passport No.'] = df2['Passport No.'].str.strip()
-        df2['Flight No.'] = df2['Flight No.'].astype(str)
-        df2.fillna("Not Available",inplace=True)
-        df2.drop_duplicates()
-    except:
-        pass
+    df2=pd.read_excel(apisFile,usecols=[1,2,3,4,5,6,7,8,9,10,11,12])
+    df2['Schedule Date'] = pd.to_datetime(df2['Schedule Date'])
+    df2['Schedule Date'] = df2['Schedule Date'].dt.date
+    df2['Date of Birth'] = pd.to_datetime(df2['Date of Birth'])
+    df2['Date of Birth'] = df2['Date of Birth'].dt.date
+    df2['Passport No.'] = df2['Passport No.'].astype(str)
+    df2['Passport No.'] = df2['Passport No.'].str.strip()
+    df2['Flight No.'] = df2['Flight No.'].astype(str)
+    df2.fillna("Not Available",inplace=True)
+    df2.drop_duplicates()
     print("4.Finished reading Flights Data ...............................")
-    #print(df2.info())
+    print(df2.info())
     print("5.Merging data ...............................")
     merged=pd.merge(dfree, df2, left_on='Passport No.', right_on='Passport No.', how="left")
     merged.drop_duplicates()
