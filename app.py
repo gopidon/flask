@@ -56,12 +56,12 @@ def hello():
     print("6.Storing matched data in matched.xlsx ...............................")
     matched = merged.loc[merged['Name'].notnull()];
     matched.drop_duplicates()
-    matched.to_excel(data_dir+'matched.xlsx')
+    #matched.to_excel(data_dir+'matched.xlsx')
     print("7.matched.xlsx is ready ...............................")
     print("8.Storing unmatched data in unmatched.xlsx ...............................")
     unmatched = merged.loc[merged['Name'].isnull()];
     unmatched.drop_duplicates();
-    unmatched.to_excel(data_dir+'unmatched.xlsx')
+    #unmatched.to_excel(data_dir+'unmatched.xlsx')
     print("9.unmatched.xlsx is ready ...............................")
     return jsonify({'matched': matched.head(1000).to_json(orient='records'), 'unmatched': unmatched.head(1000).to_json(orient='records')})
 
