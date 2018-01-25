@@ -13,3 +13,4 @@ path.py==10.3.1
 pathlib2==2.3.0
 python-dateutil==2.6.1
 toolz==0.8.2
+xlrd==1.1.0

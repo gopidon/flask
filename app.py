@@ -49,7 +49,7 @@ def hello():
     except:
         pass
     print("4.Finished reading Flights Data ...............................")
-    print(df2.info())
+    #print(df2.info())
     print("5.Merging data ...............................")
     merged=pd.merge(dfree, df2, left_on='Passport No.', right_on='Passport No.', how="left")
     merged.drop_duplicates()
