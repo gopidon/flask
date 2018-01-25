@@ -11,6 +11,10 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def index():
+	return "Yo, it's working!"
+
 @app.route("/",  methods = ['POST'])
 def hello():
     data_dir = os.getcwd()+'/data/'
@@ -71,3 +75,6 @@ def hello():
 @app.route('/data/<path:filepath>')
 def data(filepath):
     return send_from_directory('data', filepath)
+
+if __name__ == "__main__":
+	app.run()
