@@ -7,14 +7,36 @@ from flask import jsonify
 import os
 import datetime
 import fuzzymatcher
+from flask_socketio import SocketIO, emit
 import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
 
+socketio = SocketIO(app)
+
+@socketio.on('connect')
+def test_connect():
+    print("Client Connected!")
+
+@socketio.on('my_ping')
+def ping_pong(msg):
+    emit('my_pong',  {'data': "Processing started"})
+    formCFile = msg['data']['formCFile']
+    apisFile = msg['data']['apisFile']
+    emit('my_pong', {'data': "Reading Form C File"})
+    dfree=pd.read_excel(formCFile)
+    emit('my_pong', {'data': "Read  Form C File"})
+    apisFile = msg['data']['apisFile']
+    emit('my_pong', {'data': "Reading APIS File. This will take a while!"})
+    arrivals=pd.read_excel(apisFile)
+    emit('my_pong', {'data': "Read  APIS File"})
+
+
 @app.route("/",  methods = ['POST'])
 def notFuzzy():
     print("Non-Fuzzy Called!")
+    socketio.emit('my response', {'data': 'server processing started'})
     data_dir = os.getcwd()+'/data/'
     now=datetime.datetime.now()
     matchedFileName='matched'+str(now)+'.xlsx';
@@ -25,6 +47,7 @@ def notFuzzy():
     apisFile = params['apisFile']
     formCFile = params['formCFile']
     dfree=pd.read_excel(formCFile)
+    socketio.emit('my response', {'data': 'Duty free data read into memory'})
     if 'passport_number' in dfree.columns:
         dfree['passport_number'] = dfree['passport_number'].astype(str)
         dfree['passport_number'] = dfree['passport_number'].str.strip()
@@ -36,8 +59,10 @@ def notFuzzy():
     dfree.drop_duplicates()
     print("2.Finished Reading Duty Free Data ...............................")
     print(dfree.info())
+    socketio.emit('my response', {'data': 'Reading Flights data into memory. This will take time....'})
     print("3.Now reading Flights Data. This might take a while ...............................")
     arrivals=pd.read_excel(apisFile)
+    socketio.emit('my response', {'data': 'Flights data read into memory. Phew!'})
     if 'passenger_name' not in arrivals.columns:
         return jsonify({
                             'error': True,
@@ -181,4 +206,4 @@ def data(filepath):
     return send_from_directory('data', filepath)
 
 if __name__ == "__main__":
-	app.run()
+	socketio.run(app)
