@@ -1,0 +1,41 @@
+Login to Google Compute
+Clone from bitbucket (flask.git)
+Now follow directions from https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-16-04
+copy contents from flask/app.py to myproject/myproject.py
+create data dir in myproject folder
+nohup gunicorn --bind 0.0.0.0:5000 wsgi:app &
+
+
+
+
+
+Notes:
+
+1. No need of pm2config.json
+
+pip installs
+------------
+
+1. fuzzymatcher
+
+other installs
+--------------
+sudo apt-get install build-essential
+sudo apt-get install python-dev
+
+NO nginx on this server
+
+
+
+
+OLD INSTRUCTIONS:
+-----------------
+
+export FLASK_APP=app.py
+nohup flask run &
+
+pgrep -a flask -> gives pid as first column
+kill pid
+
+export FLASK_APP=app.py
+nohup flask run --host=0.0.0.0 &

@@ -12,6 +12,10 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/",  methods = ['GET'])
+def sayHello()
+    return "Hola!"
+
 @app.route("/",  methods = ['POST'])
 def notFuzzy():
     print("Non-Fuzzy Called!")
@@ -181,4 +185,4 @@ def data(filepath):
     return send_from_directory('data', filepath)
 
 if __name__ == "__main__":
-	app.run()
+	app.run(host='0.0.0.0')
