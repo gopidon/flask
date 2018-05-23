@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route("/",  methods = ['GET'])
-def sayHello()
+def sayHello():
     return "Hola!"
 
 @app.route("/",  methods = ['POST'])
